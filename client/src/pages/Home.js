@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const Home = () => {
-
   const [response, setResponse] = useState("");
   const [response2, setResponse2] = useState("");
   const { user } = useAuthContext();
@@ -11,37 +10,40 @@ const Home = () => {
   const [calories, setCalories] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const totalCalories = meals
-  .map((meal)=> meal.calories)
-  .reduce((acc,value)=>acc + +value, 0);
+    .map((meal) => meal.calories)
+    .reduce((acc, value) => acc + +value, 0);
 
-  const addMealsHandler = (e) => {
-    e.preventDefault();
-    if (calories <= 0 || mealName === "") {
-      alert("Calories should not be negative or 0, and the meal name should not be empty");
-      return;
-    }
-    const newMeal = {
+  const addMealsHandler = () => {
+    const oldMeals = [...meals];
+    const meal = {
       mealName,
       calories,
       id: Math.floor(Math.random() * 1000),
     };
-    setMeals([...meals, newMeal]);
+    const newMeals = oldMeals.concat(meal);
+    if (calories <= 0 || mealName === "") {
+      alert("Calories should not be negative or 0, meal should not be empty");
+      setOpenModal(true);
+    } else {
+      setMeals(newMeals);
+    }
     setMealName("");
     setCalories(0);
   };
-  
+
   const deleteMealHandler = (id) => {
-    setMeals(meals.filter(meal => meal.id !== id));
+    const oldMeals = [...meals];
+    const newMeals = oldMeals.filter((meal) => meal.id !== id);
   };
-  
 
   const deleteAllMeals = (e) => {
-    setMeals([])
-  }
+    setMeals([]);
+  };
 
-
-  const exercisePrompt = "Without answering back just give me an exercise plan in list in 50 words";
-  const nutritionPrompt = "Without answering back just give me a nutrition plan specify what food in list in 50 words";
+  const exercisePrompt =
+    "Without answering back just give me an exercise plan in list in 50 words";
+  const nutritionPrompt =
+    "Without answering back just give me a nutrition plan specify what food in list in 50 words";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -135,52 +137,67 @@ const Home = () => {
           </p>
         </div>
 
-        { openModal ?
-        <div className = "modal">
-          <h3> Calories must be greater than 0 and meal name cannot be empty</h3>
-          <button className = "closeModal" onClick={setOpenModal(false)}> Close </button> 
-        </div> : ""
-        }
+        {openModal ? (
+          <div className="modal">
+            <h3>
+              {" "}
+              Calories must be greater than 0 and meal name cannot be empty
+            </h3>
+            <button className="closeModal" onClick={setOpenModal(false)}>
+              {" "}
+              Close{" "}
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
 
         <div className="calorieTracker">
           <form className="calorieForm" name="calorieForm">
-
             <div className="calorieCounter">
               Total Calories: <span>{totalCalories}</span>
             </div>
 
             <div className="controlInput">
-              <input type="text"
+              <input
+                type="text"
                 placeholder="Meal"
                 value={mealName}
                 onChange={(e) => setMealName(e.target.value)}
               />
-              <input type="number"
+              <input
+                type="number"
                 placeholder="Calories"
                 value={calories}
                 onChange={(e) => setCalories(e.target.value)}
                 min={0}
               />
-              <button className="addMealButton" onClick={addMealsHandler} > Add Meal </button>
-              <button className="calorieResetButton" onClick={deleteAllMeals}> Reset Calorie </button>
+              <button type = "button" className="addMealButton" onClick={addMealsHandler}>
+                {" "}
+                Add Meal{" "}
+              </button>
+              <button type = "button" className="calorieResetButton" onClick={deleteAllMeals}>
+                {" "}
+                Reset Calorie{" "}
+              </button>
             </div>
           </form>
         </div>
 
         <div className="mealContainer">
-          <div className="mealsList" >
-            {meals.map((meals, index) => (
-              <div key={index} className="mealsListinner">
-                <div >{`${meals.mealName} : ${meals.calories}`}</div>
-                <div >
-                  <button clasName="deleteMeal" 
-                  onClick={deleteMealHandler(meals.id)}> 
-                  Delete </button>
-                </div>
+              <div className="mealsList" >
+                {meals.map((meals, index) => (
+                  <div key={index} className="mealsListinner">
+                    <div >{`${meals.mealName} : ${meals.calories}`}</div>
+                    <div >
+                      <button type = "button" clasName="deleteMeal" 
+                      onClick={deleteMealHandler(meals.id)}> 
+                      Delete </button>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
 
         <div className="chat-wrapper">
           <form className="chat-form" onSubmit={handleSubmit} name="chatForm">
