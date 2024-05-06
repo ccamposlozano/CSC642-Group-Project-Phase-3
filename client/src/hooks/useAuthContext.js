@@ -1,4 +1,4 @@
-import { AuthContext } from "../context/AuthContext";
+/*import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 
 export const useAuthContext = () => {
@@ -9,4 +9,19 @@ export const useAuthContext = () => {
   }
 
   return context;
+};*/
+
+export const useAuthContext = () => {
+  return {
+    user: {
+      email: "demo@example.com",
+      name: "Carlos",
+      height: 68,  // Example height in inches
+      weight: 150, // Example weight in pounds
+      fitnessGoal: "Lose Weight",
+      bmi: 22.3,
+      token: "mock-token"
+    }
+  };
 };
+

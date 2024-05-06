@@ -308,11 +308,11 @@ button:hover {
 }
 
 .loginBG {
-  background-image: url("../public/img/beach.jpg");
+  background-image: url("../public/img/sky.jpg");
 }
 
 .signupBG {
-  background-image: url("../public/img/forest.jpg");
+  background-image: url("../public/img/sky.jpg");
 }
 
 /*Calorie Tracker*/
