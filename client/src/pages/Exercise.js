@@ -1,5 +1,3 @@
-//import ExerciseSearch from "../components/ExerciseSearch";
-
 const Exercise = () => {
   // Data structure for exercises
   const exercisesData = [

@@ -1,7 +1,7 @@
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 
-export const useAuthContext = () => {
+/*export const useAuthContext = () => {
   const context = useContext(AuthContext);
 
   if (!context) {
@@ -9,9 +9,9 @@ export const useAuthContext = () => {
   }
 
   return context;
-};
+};*/
 
-/*export const useAuthContext = () => {
+export const useAuthContext = () => {
   return {
     user: {
       email: "demo@example.com",
@@ -23,5 +23,5 @@ export const useAuthContext = () => {
       token: "mock-token"
     }
   };
-};*/
+};
 

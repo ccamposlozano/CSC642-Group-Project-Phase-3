@@ -1,45 +1,35 @@
 import { useState } from "react";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useUpdateProfile } from "../hooks/useUpdateProfile";
-import { useNavigate } from "react-router-dom";
+
 
 const Profile = () => {
-  const { user } = useAuthContext();
-  const navigate = useNavigate();
+  const [height, setHeight] = useState(""); // Use optional chaining to handle null user
+  const [weight, setWeight] = useState("");
+  const [fitnessGoal, setGoal] = useState("");
+  const [bmi, setBmi] = useState("");
 
-  const [height, setHeight] = useState(user?.height || ""); // Use optional chaining to handle null user
-  const [weight, setWeight] = useState(user?.weight || "");
-  const [fitnessGoal, setGoal] = useState(user?.fitnessGoal || "");
-  const [bmi, setbmi] = useState(user?.bmi || "");
-
-  const { updateProfile, error, isLoading } = useUpdateProfile();
-
-  const handleUpdate = async (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
-
-    console.log(user.email, height, weight, fitnessGoal, user.token);
-
-    await updateProfile(user.email, height, weight, fitnessGoal, user.token);
+    // Calculate BMI
+    if (height && weight) {
+      const bmiValue = ((weight / (height * height)) * 703).toFixed(1);
+      setBmi(bmiValue);
+    }
   };
 
   const getBmiColor = () => {
     if (bmi < 18.5) {
-      return "red"; // Choose your color for BMI less than 18.5
+      return "red";
     } else if (bmi >= 18.5 && bmi <= 24.9) {
-      return "green"; // Choose your color for BMI between 18.5 and 24.9
+      return "green";
     } else {
-      return "red"; // Choose your color for BMI greater than 24.9
+      return "red";
     }
   };
 
   return (
     <div className="profileBG">
       <div className="profile">
-        <form
-          className="profileForm"
-          onSubmit={handleUpdate}
-          name="updateProfileForm"
-        >
+        <form className="profileForm" onSubmit={handleUpdate} name="updateProfileForm">
           <h1>Update Profile</h1>
 
           <h3>Change Height in inches (in.)</h3>
@@ -72,7 +62,7 @@ const Profile = () => {
               18.5 to 24.9
               <br />
               <br />
-              Your BMI: <span style={{ color: getBmiColor() }}> {bmi} </span>
+              Your BMI: <span style={{ color: getBmiColor() }}>{bmi}</span>
             </h3>
           </div>
 
@@ -87,8 +77,7 @@ const Profile = () => {
             </select>
           </div>
 
-          <button disabled={isLoading}>Update profile</button>
-          {error && <div className="error">{error}</div>}
+          <button>Update profile</button>
         </form>
       </div>
     </div>

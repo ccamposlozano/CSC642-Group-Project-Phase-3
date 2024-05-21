@@ -292,7 +292,7 @@ button:hover {
 }
 
 .exerciseBG {
-  background-image: url("../public/img/treadmill.jpg");
+  background-image: url("../public/img/dumbbell.jpg");
 }
 
 .faqBG {
@@ -377,3 +377,4 @@ button:hover {
 .deleteMeal:hover {
   background-color: #cc0000; /* Darker shade of red on hover */
 }
+
